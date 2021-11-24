@@ -1,8 +1,30 @@
 [
     {
+        "module": "HCSR04Antonio\\hcsr04.o",
+        "size": {
+            ".text": 70,
+            ".data": 0,
+            ".bss": 0,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
         "module": "ServoSimon\\Servo.o",
         "size": {
-            ".text": 330,
+            ".text": 264,
+            ".data": 0,
+            ".bss": 0,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "TCA9548A\\tca9548a.o",
+        "size": {
+            ".text": 94,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -13,7 +35,7 @@
     {
         "module": "[lib]\\c_w.l",
         "size": {
-            ".text": 4226,
+            ".text": 4266,
             ".data": 16,
             ".bss": 348,
             ".text-delta": 0,
@@ -24,7 +46,7 @@
     {
         "module": "[lib]\\fz_wm.l",
         "size": {
-            ".text": 2992,
+            ".text": 3590,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -57,9 +79,9 @@
     {
         "module": "main.o",
         "size": {
-            ".text": 960,
-            ".data": 0,
-            ".bss": 0,
+            ".text": 2609,
+            ".data": 12,
+            ".bss": 476,
             ".text-delta": 0,
             ".data-delta": 0,
             ".bss-delta": 0
@@ -79,7 +101,7 @@
     {
         "module": "mbed-os\\connectivity",
         "size": {
-            ".text": 423,
+            ".text": 555,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -90,9 +112,9 @@
     {
         "module": "mbed-os\\drivers",
         "size": {
-            ".text": 3548,
+            ".text": 4414,
             ".data": 0,
-            ".bss": 0,
+            ".bss": 44,
             ".text-delta": 0,
             ".data-delta": 0,
             ".bss-delta": 0
@@ -101,7 +123,7 @@
     {
         "module": "mbed-os\\hal",
         "size": {
-            ".text": 1442,
+            ".text": 1632,
             ".data": 4,
             ".bss": 58,
             ".text-delta": 0,
@@ -134,9 +156,20 @@
     {
         "module": "mbed-os\\targets",
         "size": {
-            ".text": 10431,
+            ".text": 17305,
             ".data": 8,
-            ".bss": 458,
+            ".bss": 478,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "motoresDC\\motoresDC.o",
+        "size": {
+            ".text": 504,
+            ".data": 0,
+            ".bss": 0,
             ".text-delta": 0,
             ".data-delta": 0,
             ".bss-delta": 0
@@ -144,9 +177,9 @@
     },
     {
         "summary": {
-            "static_ram": 10054,
+            "static_ram": 10606,
             "static_ram_delta": 0,
-            "total_flash": 42669,
+            "total_flash": 53632,
             "total_flash_delta": 0
         }
     }
