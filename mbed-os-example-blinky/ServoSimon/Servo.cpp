@@ -37,6 +37,7 @@ static float clamp(float value, float min, float max) {
 Servo::Servo(PinName pin) : _pwm(pin) {
     calibrate();
     write(0.5);
+    // pwmout_free(_pwm.pwmout_t);
 }
 
 void Servo::write(float percent) {
@@ -71,4 +72,16 @@ Servo& Servo::operator= (Servo& rhs) {
 
 Servo::operator float() {
     return read();
+}
+
+void Servo::stop(){
+    _pwm.write(0);
+}
+
+void Servo::resume(){
+}
+
+
+Servo::~Servo(){
+    this->write(this->read());
 }

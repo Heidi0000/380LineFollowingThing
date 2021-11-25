@@ -36,14 +36,16 @@
     {
         _MI_s1 = 1;
         _MI_s2 = 0;
-        _MI_vel = abs(velocidad);   
+        _MI_vel = abs(velocidad*5.0/9);   
+        //_MI_vel = abs(velocidad);
     }
     
     void MotoresDC::_izqAtras(float velocidad)
     {
         _MI_s1 = 0;
         _MI_s2 = 1;
-        _MI_vel = abs(velocidad);  
+        _MI_vel = abs(velocidad*5.0/9);  
+       // _MI_vel = abs(velocidad);
     }
     
     void MotoresDC::_derAdelante(float velocidad)

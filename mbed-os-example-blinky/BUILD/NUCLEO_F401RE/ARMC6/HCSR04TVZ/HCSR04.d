@@ -1,4 +1,4 @@
-BUILD\NUCLEO_F401RE\ARMC6\main.o: main.cpp \
+BUILD\NUCLEO_F401RE\ARMC6\HCSR04TVZ\HCSR04.o: HCSR04TVZ\HCSR04.cpp \
   BUILD\NUCLEO_F401RE\ARMC6\mbed_config.h mbed-os\mbed.h \
   mbed-os\platform\include\platform\mbed_version.h \
   mbed-os\rtos\include\rtos\rtos.h \
@@ -299,5 +299,4 @@ BUILD\NUCLEO_F401RE\ARMC6\main.o: main.cpp \
   mbed-os\platform\include\platform\ScopedRamExecutionLock.h \
   mbed-os\platform\include\platform\mbed_stats.h \
   mbed-os\platform\include\platform\Stream.h \
-  mbed-os\platform\include\platform\FileLike.h TCA9548A\tca9548a.h \
-  motoresDC\motoresDC.h ServoSimon\Servo.h HCSR04Antonio\HCSR04.h
+  mbed-os\platform\include\platform\FileLike.h HCSR04TVZ\HCSR04.h

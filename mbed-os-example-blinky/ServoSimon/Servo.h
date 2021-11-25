@@ -82,11 +82,15 @@ public:
      * @param degrees Angle from centre to maximum/minimum position in degrees
      */
     void calibrate(float range = 0.0005, float degrees = 45.0); 
+
+    void stop();
+    void resume();
         
     /**  Shorthand for the write and read functions */
     Servo& operator= (float percent);
     Servo& operator= (Servo& rhs);
     operator float();
+    ~Servo();
 
 protected:
     PwmOut _pwm;
