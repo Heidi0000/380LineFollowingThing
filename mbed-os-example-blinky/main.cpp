@@ -55,7 +55,15 @@ void OpenGripper(Servo *gripperMotor){
     } 
 
 }
+void celebrate(Servo* gripperMotor){
+    CloseGripper(gripperMotor);
+    OpenGripper(gripperMotor);
+    CloseGripper(gripperMotor);
+    OpenGripper(gripperMotor);
+    CloseGripper(gripperMotor);
+    OpenGripper(gripperMotor);
 
+}
 
 bool checkForReds(I2C &i2c0, float redRatio, bool isRedd[5] ) {
     int sensor_addr = 41 << 1;
@@ -117,31 +125,48 @@ int main() {
     float I = 0;
     float e_prev = 0;
     //For the home track 
-   // float redRatio = 0.41;
+    //float redRatio = 0.41;
     //For the home track  2
-    float redRatio = 0.48;
+    //float redRatio = 0.48;
+
+///////////////////////////////////////////////////////////
     //For the school track
-    //float redRatio = 0.42; 
+    float redRatio = 0.42; 
+///////////////////////////////////////////////////////////
+
     //For the home track 
-    float greenRatio = 0.40;  
+    //float greenRatio = 0.44;  
+
+///////////////////////////////////////////////////////////
     //For the school Track  
-    //float greenRatio = 0.46;  
+    float greenRatio = 0.46; 
+///////////////////////////////////////////////////////////
+
     //For the home track
-    float blueRatio = 0.55;
-    //float blueRatio = 0.46;
+    //float blueRatio = 0.55;
+
+///////////////////////////////////////////////////////////
+    //For the school track
+    float blueRatio = 0.46;
+///////////////////////////////////////////////////////////
+
     //leftToRight
     //For home to calibrate
     //int minClearValues[5] = {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX};
     //int maxClearValues[5] = {0, 0, 0, 0, 0};
 
+///////////////////////////////////////////////////////////
     //These are the school values
-    // int minClearValues[5] = {25, 20, 17, 16, 73};
-    // int maxClearValues[5] = {83, 66, 58, 51, 200};
+    int minClearValues[5] = {25, 20, 17, 16, 73};
+    int maxClearValues[5] = {83, 66, 58, 51, 200};
+///////////////////////////////////////////////////////////
 
-    int minClearValues[5] = {29, 23, 22, 20, 86};
-    int maxClearValues[5] = {106, 83, 69, 61, 252};
+    //These are the home values
+    //int minClearValues[5] = {29, 23, 22, 20, 86};
+    //int maxClearValues[5] = {106, 83, 69, 61, 252};
 
-    //  float blueRatio = 0.42;
+    //Billy's random number
+    //float blueRatio = 0.42;
     bool stopAtGreen = false;
     bool stopAt5Red = true;
     bool stopAtBlue = true;
@@ -156,10 +181,20 @@ int main() {
     gripperMotor = new Servo(PA_6);
     //40 is open, 0 is closed
     gripperMotor->calibrate(0.00095,45); 
-
     shakyMotor= new Servo(PA_5);
     shakyMotor->calibrate(0.0006,45);
+    for (int i = 50; i>42; i--){
+        *shakyMotor = i/100.0;
+        printf("here %f\n",shakyMotor->read());
+        wait_us(1000);
+    }
 
+    // for (int i = 0; i<40; i++){
+    //     *shakyMotor = i/100.0;
+    //     printf("here %f\n",shakyMotor->read());
+    //     wait_us(1000);
+    // }
+    wait_us(1000000);
     shakyMotor->stop();
     // By default TCA9548A performs a power on reset and all downstream ports are deselected
     I2C i2c0(PB_9, PB_8); //pins for I2C communication (SDA, SCL)
@@ -207,7 +242,7 @@ int main() {
     //maxClearValues[4] = (maxClearValues[0] + maxClearValues[1] + maxClearValues[2] + maxClearValues[3])/4;
 
     printf("Max values are %d, %d, %d, %d, %d\n", maxClearValues[0], maxClearValues[1], maxClearValues[2], maxClearValues[3], maxClearValues[4]);
-    printf("Min values are %d, %d, %d, %d, %d\n", minClearValues[0], minClearValues[1], minClearValues[2], minClearValues[3], minClearValues[4]);
+    printf("Min values areeeee %d, %d, %d, %d, %d\n", minClearValues[0], minClearValues[1], minClearValues[2], minClearValues[3], minClearValues[4]);
 
     led = !led;
     wait_us(5000000);
@@ -266,78 +301,115 @@ int main() {
             if (stopAtBlue == true && blueRatio <= blue_value/total) {
             // while(1) {
                 printf("IN STOP AT BLUE");
+                wait_us(30000);
                 car.detener();
                 wait_us(1000000);
                 // car.conducir(-0.18, 500);
                 stopAtBlue = false;
                 //look for man using us
                 //move back a bit
-                float distance = USsensor.distance();  
-                if (distance <= 6) {
-                    printf("%f\n", distance);
-                    car.detener();
+                // float distance = USsensor.distance(); 
+                // while (distance >= 6) {
+                //     car.conducir(NORMAL_SPEED);
+                //     distance = USsensor.distance(); 
+                // }
+                //printf("%f\n", distance);
+                car.detener();
+
+                CloseGripper(gripperMotor);
+                wait_us(1000000);
+                gripperMotor->stop();
+                //delete gripperMotor;
+                //hopefully deleting this keeps it closed
+
+                // shakyMotor= new Servo(PA_5);
+                // shakyMotor->calibrate(0.0006,45); gripperMotor->stop();
+                shakyMotor->resume();
+
+                for(int i = 42; i<90; i++){
+                    *shakyMotor = i/100.0;
+                    wait_us(1000);
+                }   
+                wait_us(1000000);
+
+
+                shakyMotor->stop();
+
                 
-                    CloseGripper(gripperMotor);
-                    wait_us(1000000);
-                    //delete gripperMotor;
-                    //hopefully deleting this keeps it closed
-
-                    // shakyMotor= new Servo(PA_5);
-                    // shakyMotor->calibrate(0.0006,45); gripperMotor->stop();
-                    shakyMotor->resume();
-
-                    for(int i = 50; i<100; i++){
-                        *shakyMotor = i/100.0;
-                        wait_us(90000);
-                    }   
-
-                    wait_us(1000000);
-                    
-                    //turn
-                    car.conducir(-GOING_BACK_AFTER_GRAB_SPEED, 900);
-                    car.detener();
-                    wait_us(1000000);
+                //turn
+                car.conducir(-GOING_BACK_AFTER_GRAB_SPEED, 800);
+                car.detener();
+                wait_us(1000000);
+                checkForReds(i2c0, redRatio, isRed);
+                while (!isRed[4]) {
+                    //FOr School
+                    //car.pivotar(-0.35);
+                    car.pivotar(-NORMAL_SPEED*1.5);
                     checkForReds(i2c0, redRatio, isRed);
-                    while (!isRed[0]) {
-                        //FOr School
-                        //car.pivotar(-0.35);
-                        car.pivotar(-NORMAL_SPEED*1.5);
-                        checkForReds(i2c0, redRatio, isRed);
-                    }
-                    
-                    while (!isRed[2]) {
-                        car.pivotar(-NORMAL_SPEED*1.2);
-                        checkForReds(i2c0, redRatio, isRed);
-                        currentSensor = 0;
-                    }
-                    car.detener();
-                    wait_us(1000000);
-
-                
-
-                    findMan = false;
-                    normalSpeed = NORMAL_SPEED;
-                    Kp = K_P;
-                } else {
-                    moveDirection = -1;
-                    normalSpeed = BACKWARD_MAN_GRAB_SPEED;
-                    Kp = BACKWARD_MAN_GRAB_KP;
                 }
+                while (!isRed[0]) {
+                    //FOr School
+                    //car.pivotar(-0.35);
+                    car.pivotar(-NORMAL_SPEED*1.5);
+                    checkForReds(i2c0, redRatio, isRed);
+                }
+                
+                while (!isRed[2]) {
+                    car.pivotar(-NORMAL_SPEED*1.2);
+                    checkForReds(i2c0, redRatio, isRed);
+                    currentSensor = 0;
+                }
+                car.detener();
+                wait_us(1000000);
+
+            
+
+                findMan = false;
+                normalSpeed = NORMAL_SPEED;
+                Kp = K_P;
+                stopAtGreen = true;
+                //} 
+                // else {
+                //     moveDirection = -1;
+                //     normalSpeed = BACKWARD_MAN_GRAB_SPEED;
+                //     Kp = BACKWARD_MAN_GRAB_KP;
+                // }
 
             }
 
-            if (stopAtGreen == true && greenRatio <= green_value/total) {
-                while(1) {
-                    car.detener();
-                }
+            if (stopAtGreen == true && greenRatio <= green_value/total && (i == 1 || i == 2)) {
+                printf("IN STOP AT GREEN");
+                car.detener();
+                //shakyMotor->stop();
+                wait_us(10000);
+                OpenGripper(gripperMotor);
+                wait_us(1000000);
+                gripperMotor->stop();
+                car.conducir(-GOING_BACK_AFTER_GRAB_SPEED*1.2, 450);
+                wait_us(10000);
+                for(int i = 90; i>=50; i--){
+                    *shakyMotor = i/100.0;
+                    wait_us(10000);
+                } 
+                wait_us(1000000);
+                shakyMotor->stop();
+                stopAtGreen = false;
+                currentSensor = 1;
+                left = false;
+                right = false;
+                led = !led;
+                wait_us(3000000);
             }
             if (stopAt5Red == true && numRed == 5) {
+                printf("IN STOP AT 5 RED");
                 car.detener();
 
                 //Servo* gripperMotor = new Servo(PA_6);
                 //40 is open, 0 is closed
                 //gripperMotor->calibrate(0.00095,45); 
                 OpenGripper(gripperMotor);
+                         celebrate(gripperMotor);   
+
                  //lets just not destroy this cuz like it ends here... do we rlly need to care about this
                 return 1;
             }
@@ -496,13 +568,169 @@ int main() {
         car.motorDer(rightMotorSpeed*moveDirection);
         //car.motorDer(rightMotorSpeed);
        //car.conducir(0.16*(adjusting+0.2));
-            
         // printf("%f ", e);
         // printf("%f, %f, %f, %f, %f, %d, %d\n", clearValuePercentage[0], clearValuePercentage[1], clearValuePercentage[2], clearValuePercentage[3], clearValuePercentage[4], left, right);
     }
 }
 
+#elif trying ==6
+//this is testing all the sensors w the 9v battery 
+#include "mbed.h"
+#include "tca9548a.h"
+#include "motoresDC.h"
+#include "ServoSimon/Servo.h"
+#include "HCSR04Antonio/HCSR04.h"
 
+MotoresDC car(PB_3, PB_10, PA_8, PA_10, PB_4, PB_5);
+void CloseGripper(Servo *gripperMotor){
+    for(int i =40; i>0; i--) 
+    {
+        *gripperMotor = i/100.0;
+        wait_us(20000);      
+    }   
+
+}
+
+void OpenGripper(Servo *gripperMotor){
+    for(int i=0; i<40; i++) 
+    {
+        *gripperMotor = i/100.0;
+        wait_us(20000);
+    } 
+
+}
+
+int main()
+{   
+    float adjusting = 0.4;//0.7; 
+
+    int backwardsIterations = 590;
+    float NORMAL_SPEED = 0.245*adjusting;
+    float normalSpeed = NORMAL_SPEED;
+    float FORWARD_MAN_GRAB_SPEED = NORMAL_SPEED;
+    float BACKWARD_MAN_GRAB_SPEED = NORMAL_SPEED;
+
+    float GOING_BACK_AFTER_GRAB_SPEED = NORMAL_SPEED*1.4;
+    //float Kp = 0.089*adjusting;
+    float K_P = 0.11*adjusting;
+    float Kp = K_P;
+    float BACKWARD_MAN_GRAB_KP = K_P;
+    float FORWARD_MAN_GRAB_KP = K_P*0.4;
+    float Kd = 0.07*adjusting;
+    float Ki = 0;
+    float I = 0;
+    float e_prev = 0;
+    
+
+    //For the home track 
+   // float redRatio = 0.41;
+    //For the home track  2
+    //float redRatio = 0.48;
+    //For the school track
+    float redRatio = 0.42; 
+    //For the home track 
+    //float greenRatio = 0.40;  
+    //For the school Track  
+    float greenRatio = 0.46;  
+    //For the home track
+    //float blueRatio = 0.55;
+    //For the school track
+    float blueRatio = 0.46;
+    //leftToRight
+    //For home to calibrate
+   // int minClearValues[5] = {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX};
+    //int maxClearValues[5] = {0, 0, 0, 0, 0};
+
+    //These are the school values
+    int minClearValues[5] = {25, 20, 17, 16, 73};
+    int maxClearValues[5] = {83, 66, 58, 51, 200};
+
+    //These are the home values
+    // int minClearValues[5] = {29, 23, 22, 20, 86};
+    // int maxClearValues[5] = {106, 83, 69, 61, 252};
+
+    //  float blueRatio = 0.42;
+    bool stopAtGreen = false;
+    bool stopAt5Red = true;
+    bool stopAtBlue = true;
+
+    // Servo gripperMotor(PA_6);
+    // //40 is open, 0 is closed
+    // //dont change this value
+    // gripperMotor.calibrate(0.00095,45); 
+
+    // By default TCA9548A performs a power on reset and all downstream ports are deselected
+    I2C i2c0(PB_9, PB_8); //pins for I2C communication (SDA, SCL)
+    i2c0.frequency(400000);
+    float SENSOR_ON_LINE_VALUE = 0.60;
+    float LOW_CLR_VAL = 0.1;
+    int EDGE_MOST_SENSOR = 2;
+    DigitalOut led(LED1);
+    TCA9548A i2c_sw(PB_9, PB_8); //default address 0x70 applied
+    MotoresDC car(PB_3, PB_10, PA_8, PA_10, PB_4, PB_5);
+    //trigger, echo in this order
+    HCSR04 USsensor(D8, D9);
+    int sensor_addr = 41 << 1;
+
+    for (int i = 1; i <= 5; i++) {
+        i2c_sw.select(i);               //  select  the channel 0
+        char id_regval0[1] = {146};
+        char data0[1] = {0};
+        i2c0.write(sensor_addr, id_regval0, 1, true);
+        i2c0.read(sensor_addr,data0,1,false);
+        if (68 == data0[0]) printf("Read data is 68 for sensor %d (working)\n", i);
+        //OneCycleValue
+        char timing_register[2] = {129, 255};
+        //This is the code for 10 cycles
+        //char timing_register[2] = {129, 246};
+        i2c0.write(sensor_addr,timing_register,2,false);
+        char control_register[2] = {143,0};
+        i2c0.write(sensor_addr,control_register,2,false);
+        char enable_register[2] = {128,3};
+        i2c0.write(sensor_addr,enable_register,2,false);
+    }
+
+    //delete gripperMotor;
+    //hopefully deleting this keeps it closed
+
+    // shakyMotor= new Servo(PA_5);
+    // shakyMotor->calibrate(0.0006,45); gripperMotor->stop();
+
+    Servo* shakyMotor;
+    Servo* gripperMotor;
+    gripperMotor = new Servo(PA_6);
+    gripperMotor->calibrate(0.00095,45); 
+
+    shakyMotor= new Servo(PA_5);
+    shakyMotor->calibrate(0.0006,45);
+
+
+    CloseGripper(gripperMotor);
+    wait_us(1000000);
+
+    shakyMotor->resume();
+    gripperMotor->stop();
+
+    for(int i = 50; i<100; i++){
+        *shakyMotor = i/100.0;
+        wait_us(90000);
+    }   
+
+    wait_us(1000000);
+
+    car.detener();
+    shakyMotor->stop();
+    wait_us(1000);
+    OpenGripper(gripperMotor);
+    wait_us(1000);
+    car.conducir(-GOING_BACK_AFTER_GRAB_SPEED*1.2, 450);
+    gripperMotor->stop();
+    wait_us(1000);
+    for(int i = 100; i>=50; i--){
+        *shakyMotor = i/100.0;
+        wait_us(90000);
+    } 
+}
 //trying is either linefollowing or servoo or shaky or ultrasonic
 #elif trying == 1
 #include "mbed.h"
@@ -1149,19 +1377,5 @@ int main()
  
 
 }
-#elif trying ==6
-//this is testing all the sensors w the 9v battery 
-#include "mbed.h"
-#include "tca9548a.h"
-#include "motoresDC.h"
-#include "ServoSimon/Servo.h"
-#include "HCSR04Antonio/HCSR04.h"
 
-MotoresDC car(PB_3, PB_10, PA_8, PA_10, PB_4, PB_5);
-
-
-int main()
-{
-    car.conducir(-0.1);
-}
 #endif

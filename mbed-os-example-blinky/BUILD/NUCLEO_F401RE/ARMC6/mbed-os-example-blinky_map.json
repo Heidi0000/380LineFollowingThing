@@ -2,7 +2,7 @@
     {
         "module": "HCSR04Antonio\\hcsr04.o",
         "size": {
-            ".text": 316,
+            ".text": 130,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -13,7 +13,7 @@
     {
         "module": "ServoSimon\\Servo.o",
         "size": {
-            ".text": 282,
+            ".text": 288,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -46,7 +46,7 @@
     {
         "module": "[lib]\\fz_wm.l",
         "size": {
-            ".text": 3684,
+            ".text": 3590,
             ".data": 0,
             ".bss": 0,
             ".text-delta": 0,
@@ -79,10 +79,10 @@
     {
         "module": "main.o",
         "size": {
-            ".text": 3606,
+            ".text": 3556,
             ".data": 12,
             ".bss": 564,
-            ".text-delta": 0,
+            ".text-delta": -8,
             ".data-delta": 0,
             ".bss-delta": 0
         }
@@ -112,7 +112,7 @@
     {
         "module": "mbed-os\\drivers",
         "size": {
-            ".text": 4824,
+            ".text": 4572,
             ".data": 0,
             ".bss": 44,
             ".text-delta": 0,
@@ -179,8 +179,8 @@
         "summary": {
             "static_ram": 10694,
             "static_ram_delta": 0,
-            "total_flash": 56143,
-            "total_flash_delta": 0
+            "total_flash": 55567,
+            "total_flash_delta": -8
         }
     }
 ]
